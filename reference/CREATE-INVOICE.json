@@ -1,0 +1,251 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "CREATE INVOICE",
+    "version": "1.0",
+    "description": ""
+  },
+  "servers": [
+    {
+      "url": "https://gtest-open-api.lianlianpay-inc.com",
+      "description": "Sandbox/https"
+    },
+    {
+      "url": "https://global-open-api.lianlianpay.com",
+      "description": "Production/https"
+    }
+  ],
+  "paths": {
+    "/api/bill/add": {
+      "post": {
+        "summary": "Create a new invoice.",
+        "operationId": "post-api-bill-add",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "allOf": [
+                        {
+                          "properties": {
+                            "billId": {
+                              "type": "string"
+                            },
+                            "extOrderId": {
+                              "type": "string"
+                            },
+                            "invoiceUrl": {
+                              "type": "string"
+                            }
+                          }
+                        }
+                      ],
+                      "type": "object"
+                    }
+                  }
+                },
+                "examples": {
+                  "success example": {
+                    "value": {
+                      "code": "000000",
+                      "data": {
+                        "extOrderId": "201908200742129",
+                        "billId": "201908221466425",
+                        "invoiceUrl": "https://invoicebuilder.lianlianpay.com/bill/info?billId=9hrsN32RuN9g3CI6H8gX48Meg"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          },
+          "402": {
+            "description": "|HTTP Code | Code | Summary|\n|---------|----------|----------|\n |402 | 999995  |Invalid Parameter. Returned message such as: “[userId] can't be empty.”|\n |402 | 171003  |The extOrderId already exists.|\n |402 | 171004  |The configuration for the platform does not exist.|",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string"
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message"
+                  ]
+                },
+                "examples": {
+                  "Invalid Parameter": {
+                    "value": {
+                      "code": "999995",
+                      "message": "[userId] can't be empty."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "description": "Create a new invoice.",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "extOrderId": {
+                    "type": "string",
+                    "description": "unique bill ID from partner"
+                  },
+                  "userId": {
+                    "type": "string",
+                    "description": "user ID from partner system"
+                  },
+                  "userName": {
+                    "type": "string",
+                    "description": "user name from partner system "
+                  },
+                  "currency": {
+                    "type": "string",
+                    "description": "currency of bill "
+                  },
+                  "amount": {
+                    "type": "string",
+                    "description": "amount of bill "
+                  },
+                  "bankAccount": {
+                    "type": "string",
+                    "description": "required if payment directly goes to bank account "
+                  },
+                  "swiftCode": {
+                    "type": "string",
+                    "description": "required if payment directly goes to bank account "
+                  },
+                  "accountName": {
+                    "type": "string",
+                    "description": "required if payment directly goes to bank account "
+                  },
+                  "bankName": {
+                    "type": "string",
+                    "description": "required if payment directly goes to bank account "
+                  },
+                  "bankCode": {
+                    "type": "string",
+                    "description": "required if payment directly goes to bank \naccount and bank type is not IBAN. \n1. No need to enter if bank type is IBAN; \n2. Enter SortCode if bank type is SORT; \n3. Enter bank code if bank type is CIPS,ZENGIN,ABA. "
+                  },
+                  "payEndTime": {
+                    "type": "string",
+                    "description": "due date in ISO 8601 date time format.\n\ne.g. 2019-11-19T17:12:43.083Z "
+                  },
+                  "bankType": {
+                    "type": "string",
+                    "description": "IBAN, SORT, CIPS, ZENGIN, ABA; required if payment directly goes to bank account"
+                  },
+                  "bankRegion": {
+                    "type": "string",
+                    "description": "required if payment directly goes to bank account. "
+                  },
+                  "rfb": {
+                    "type": "string",
+                    "description": "reference for beneficiary "
+                  },
+                  "memo": {
+                    "type": "string",
+                    "description": "remarks information "
+                  },
+                  "payerEmail": {
+                    "type": "string",
+                    "description": "payer’s email"
+                  },
+                  "payerPhone": {
+                    "type": "string",
+                    "description": "payer’s phone"
+                  },
+                  "goodsType": {
+                    "type": "string",
+                    "description": "type of the goods/service, supporting: \n1. VAT_TAX \n2. TAX_SERVICE_FEE "
+                  },
+                  "goodsInfoList": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/GoodsInfo"
+                    }
+                  }
+                },
+                "required": [
+                  "extOrderId",
+                  "userId",
+                  "userName",
+                  "currency",
+                  "amount"
+                ]
+              }
+            }
+          },
+          "description": "Request Body"
+        },
+        "tags": [
+          "1.Operation"
+        ],
+        "parameters": []
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "GoodsInfo": {
+        "title": "GoodsInfo",
+        "type": "object",
+        "properties": {
+          "goodsName": {
+            "type": "string",
+            "description": "name of goods"
+          },
+          "goodsNumber": {
+            "type": "string",
+            "description": "quantity of goods "
+          },
+          "goodsCurrency": {
+            "type": "string"
+          },
+          "goodsUnitPrice": {
+            "type": "string",
+            "description": "unit price of goods "
+          },
+          "goodsAmount": {
+            "type": "string",
+            "description": "total amount of goods"
+          },
+          "description": {
+            "type": "string",
+            "description": "description of goods "
+          }
+        },
+        "required": [
+          "goodsName",
+          "goodsNumber",
+          "goodsCurrency",
+          "goodsUnitPrice",
+          "goodsAmount",
+          "description"
+        ],
+        "x-tags": [
+          "2.Models"
+        ]
+      }
+    },
+    "securitySchemes": {}
+  }
+}
