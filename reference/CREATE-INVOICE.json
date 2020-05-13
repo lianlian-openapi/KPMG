@@ -18,7 +18,7 @@
   "paths": {
     "/api/bill/add": {
       "post": {
-        "summary": "Create a new invoice.",
+        "summary": "Create a new invoice",
         "operationId": "post-api-bill-add",
         "responses": {
           "200": {
