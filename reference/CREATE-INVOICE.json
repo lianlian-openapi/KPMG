@@ -243,7 +243,8 @@
         ],
         "x-tags": [
           "2.Models"
-        ]
+        ],
+        "description": "Goods information"
       }
     },
     "securitySchemes": {}
